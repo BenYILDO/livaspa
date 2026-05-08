@@ -23,7 +23,9 @@ if (missing.length) {
   process.exit(1);
 }
 
-for (const file of requiredFiles.filter((item) => item.endsWith(".html"))) {
+const htmlFiles = requiredFiles.filter((item) => item.endsWith(".html"));
+
+for (const file of htmlFiles) {
   const html = fs.readFileSync(path.join(root, file), "utf8");
   if (!html.includes('href="styles.css"') || !html.includes('src="script.js"')) {
     console.error(`${file} ortak CSS veya JS dosyasını yüklemiyor.`);
@@ -31,4 +33,12 @@ for (const file of requiredFiles.filter((item) => item.endsWith(".html"))) {
   }
 }
 
-console.log("Lavinya Spa statik site dosyaları doğrulandı.");
+const publicDir = path.join(root, "public");
+fs.rmSync(publicDir, { recursive: true, force: true });
+fs.mkdirSync(publicDir, { recursive: true });
+
+for (const file of [...htmlFiles, "styles.css", "script.js"]) {
+  fs.copyFileSync(path.join(root, file), path.join(publicDir, file));
+}
+
+console.log("Lavinya Spa statik site dosyaları doğrulandı ve public klasörü hazırlandı.");

@@ -1,6 +1,7 @@
 .vercel/
 node_modules/
 .serve.pid
+public/
 
 # Original design exports kept locally as source material, not part of deploy.
 ana_sayfa_lavinya_spa/
@@ -8,3 +9,5 @@ hakk_m_zda_lavinya_spa/
 hizmetlerimiz_lavinya_spa/
 lavinya_ethereal/
 sss_ve_i_leti_im_lavinya_spa/
+
+.vercel
