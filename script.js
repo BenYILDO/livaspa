@@ -45,7 +45,7 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
       "",
       message
     ].join("\n");
-    const mailto = `mailto:rezervasyon@lavinyaspa.com?subject=${encodeURIComponent("Lavinya Spa randevu talebi")}&body=${encodeURIComponent(body)}`;
+    const mailto = `mailto:rezervasyon@lavinyaspa.com?subject=${encodeURIComponent("Liva Spa randevu talebi")}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
 
     const status = form.querySelector("[data-form-status]");

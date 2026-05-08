@@ -41,4 +41,4 @@ for (const file of [...htmlFiles, "styles.css", "script.js"]) {
   fs.copyFileSync(path.join(root, file), path.join(publicDir, file));
 }
 
-console.log("Lavinya Spa statik site dosyaları doğrulandı ve public klasörü hazırlandı.");
+console.log("Liva Spa statik site dosyaları doğrulandı ve public klasörü hazırlandı.");
