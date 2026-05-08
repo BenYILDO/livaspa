@@ -38,19 +38,21 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
     const date = data.get("date") || "";
     const message = data.get("message") || "";
     const body = [
+      "Merhaba Liva Spa, randevu talebi oluşturmak istiyorum.",
+      "",
       `Ad Soyad: ${name}`,
       `Telefon: ${phone}`,
       `İlgilendiğim hizmet: ${service}`,
-      `Tercih ettiğim tarih: ${date}`,
+      `Tercih ettiğim tarih: ${date || "Belirtmedim"}`,
       "",
-      message
+      `Not: ${message || "Belirtmedim"}`
     ].join("\n");
-    const mailto = `mailto:rezervasyon@lavinyaspa.com?subject=${encodeURIComponent("Liva Spa randevu talebi")}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    const whatsappUrl = `https://wa.me/905304457316?text=${encodeURIComponent(body)}`;
+    window.open(whatsappUrl, "_blank", "noopener");
 
     const status = form.querySelector("[data-form-status]");
     if (status) {
-      status.textContent = "E-posta uygulamanız randevu bilgileriyle açıldı.";
+      status.textContent = "WhatsApp randevu mesajınız hazırlandı.";
     }
   });
 });
