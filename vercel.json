@@ -1,0 +1,49 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/hizmetler",
+      "destination": "/hizmetler.html"
+    },
+    {
+      "source": "/hakkimizda",
+      "destination": "/hakkimizda.html"
+    },
+    {
+      "source": "/deneyim",
+      "destination": "/deneyim.html"
+    },
+    {
+      "source": "/sss-iletisim",
+      "destination": "/sss-iletisim.html"
+    },
+    {
+      "source": "/gizlilik",
+      "destination": "/gizlilik.html"
+    },
+    {
+      "source": "/kullanim-kosullari",
+      "destination": "/kullanim-kosullari.html"
+    },
+    {
+      "source": "/kvkk",
+      "destination": "/kvkk.html"
+    }
+  ]
+}
