@@ -28,6 +28,59 @@ document.querySelectorAll("[data-faq]").forEach((item) => {
   });
 });
 
+document.querySelectorAll("[data-slider]").forEach((slider) => {
+  const section = slider.closest(".section") || document;
+  const track = slider.querySelector("[data-slider-track]");
+  const dotsWrap = slider.querySelector("[data-slider-dots]");
+  const prev = section.querySelector("[data-slider-prev]");
+  const next = section.querySelector("[data-slider-next]");
+  const slides = Array.from(track ? track.children : []);
+
+  if (!track || !dotsWrap || !slides.length) return;
+
+  const dots = slides.map((_, index) => {
+    const dot = document.createElement("button");
+    dot.className = "slider-dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `${index + 1}. terapiye git`);
+    dot.addEventListener("click", () => {
+      slides[index].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    });
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  const getCurrentIndex = () => {
+    const firstSlide = slides[0];
+    const slideWidth = firstSlide.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(track).columnGap || "0");
+    return Math.min(slides.length - 1, Math.max(0, Math.round(track.scrollLeft / (slideWidth + gap))));
+  };
+
+  const updateSlider = () => {
+    const current = getCurrentIndex();
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === current);
+      dot.setAttribute("aria-current", index === current ? "true" : "false");
+    });
+  };
+
+  const moveBy = (direction) => {
+    const current = getCurrentIndex();
+    const target = Math.min(slides.length - 1, Math.max(0, current + direction));
+    slides[target].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  };
+
+  if (prev) prev.addEventListener("click", () => moveBy(-1));
+  if (next) next.addEventListener("click", () => moveBy(1));
+
+  track.addEventListener("scroll", () => {
+    window.requestAnimationFrame(updateSlider);
+  });
+  window.addEventListener("resize", updateSlider);
+  updateSlider();
+});
+
 document.querySelectorAll("[data-contact-form]").forEach((form) => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
