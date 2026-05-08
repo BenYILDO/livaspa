@@ -35,6 +35,8 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
   const prev = section.querySelector("[data-slider-prev]");
   const next = section.querySelector("[data-slider-next]");
   const slides = Array.from(track ? track.children : []);
+  let slideStep = 0;
+  let scrollFrame = 0;
 
   if (!track || !dotsWrap || !slides.length) return;
 
@@ -50,11 +52,17 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
     return dot;
   });
 
-  const getCurrentIndex = () => {
+  const measureSlider = () => {
     const firstSlide = slides[0];
     const slideWidth = firstSlide.getBoundingClientRect().width;
-    const gap = parseFloat(getComputedStyle(track).columnGap || "0");
-    return Math.min(slides.length - 1, Math.max(0, Math.round(track.scrollLeft / (slideWidth + gap))));
+    const styles = getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    slideStep = slideWidth + gap;
+  };
+
+  const getCurrentIndex = () => {
+    if (!slideStep) return 0;
+    return Math.min(slides.length - 1, Math.max(0, Math.round(track.scrollLeft / slideStep)));
   };
 
   const updateSlider = () => {
@@ -75,9 +83,19 @@ document.querySelectorAll("[data-slider]").forEach((slider) => {
   if (next) next.addEventListener("click", () => moveBy(1));
 
   track.addEventListener("scroll", () => {
-    window.requestAnimationFrame(updateSlider);
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      updateSlider();
+    });
+  }, { passive: true });
+
+  window.addEventListener("resize", () => {
+    measureSlider();
+    updateSlider();
   });
-  window.addEventListener("resize", updateSlider);
+
+  measureSlider();
   updateSlider();
 });
 
